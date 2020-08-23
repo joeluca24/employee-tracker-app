@@ -1,0 +1,24 @@
+{
+  "name": "employee-tracker-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cmmmanager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joeluca24/employee-tracker-app.git"
+  },
+  "author": "Joe Luca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joeluca24/employee-tracker-app/issues"
+  },
+  "homepage": "https://github.com/joeluca24/employee-tracker-app#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  }
+}
