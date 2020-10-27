@@ -4,6 +4,7 @@
   "description": "",
   "main": "cmmmanager.js",
   "scripts": {
+    "start": "node cmmmanager.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

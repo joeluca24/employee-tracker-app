@@ -112,6 +112,27 @@ function viewdepartment() {
         showMenu();
     });
 }
+function viewRoles() {
+    // console.log("viewRoles")
+    connection.query("SELECT * FROM role", (err, result) => {
+        if (err) throw err;
+        console.log("Viewing roles");
+        console.table(result);
+        showMenu();
+    });
+
+}
+function viewEmployees() {
+    console.log("viewEmployees")
+    // console.log("viewRoles")
+    connection.query("SELECT * FROM employee", (err, result) => {
+        if (err) throw err;
+        console.log("Viewing employees");
+        console.table(result);
+        showMenu();
+    });
+}
+
 function adddepartment() {
     return inquirer.prompt([
         {
@@ -119,6 +140,8 @@ function adddepartment() {
             name: "name",
             type: "input"
         }
+        
+        
     ])
         .then(response => {
             connection.query("INSERT INTO department SET ?", response, (err, result) => {
@@ -129,34 +152,116 @@ function adddepartment() {
             });
         })
 }
-const showMenu = () => {
+function addEmployee() {
+    console.log("addEmployee")
     return inquirer.prompt([
+     
         {
-            message: "What would you like to do?",
-            choices: ["add department", "view department", "update department", "delete department", "exit"],
-            name: "menuitem",
-            type: "list"
+            message: "what is the employees first name ?",
+            name: "first_name",
+            type: "input"
+        },
+        {
+            message: "what is the employees last name ?",
+            name: "last_name",
+            type: "input"
+        },
+        {
+            message: "what is the role id?",
+            name: "role_id",
+            type: "input"
         }
     ])
         .then(response => {
-            switch (response.menuitem) {
-                case "add department":
-                    return adddepartment();
-                case "view department":
-                    return viewdepartment();
-                case "update department":
-                    return updatedepartment();
-                case "delete department":
-                    return deletedepartment();
+            connection.query("INSERT INTO employee SET ?", response, (err, result) => {
+                if (err) throw err;
+                console.log("Created using");
+                console.table(result);
+                showMenu();
+            });
+        })
 
-                default:
-                    connection.end();
-            }
-        });
+
 }
+function addRole() {
+    console.log("addRole")
+    return inquirer.prompt([
+        {
+            message: "What is the department id?",
+            name: "department_id",
+            type: "input"
+        },
+        {
+            message: "What is the salary?",
+            name: "salary",
+            type: "input"
 
-connection.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected, Thread id: " + connection.threadId);
-    showMenu();
-});
+
+        },
+        {
+            message: "what is the role title?",
+            name: "title",
+            type: "input"
+        }
+
+    ])
+        .then(response => {
+            connection.query("INSERT INTO role SET ?", response, (err, result) => {
+                if (err) throw err;
+                console.log("Created using");
+                console.table(result);
+                
+                showMenu();
+            });
+        })
+    }
+
+    const showMenu = () => {
+        return inquirer.prompt([
+            {
+                message: "What would you like to do?",
+                choices: [
+                    "add employee",
+                    "add role",
+                    "view employees",
+                    "view roles",
+                    "add department",
+                    "view department",
+                    "update department",
+                    "delete department",
+                    "exit"],
+                name: "menuitem",
+                type: "list"
+            }
+        ])
+            .then(response => {
+                switch (response.menuitem) {
+                    case "add department":
+                        return adddepartment();
+                    case "view department":
+                        return viewdepartment();
+                    case "update department":
+                        return updatedepartment();
+                    case "delete department":
+                        return deletedepartment();
+                    case "add employee":
+                        return addEmployee();
+                    case "add role":
+                        return addRole();
+                    case "view employees":
+                        return viewEmployees();
+                    case "view roles":
+                        return viewRoles();
+
+                    default:
+                        connection.end();
+                }
+            });
+    }
+
+    connection.connect(function (err) {
+        if (err) throw err;
+        console.log("Connected, Thread id: " + connection.threadId);
+        showMenu();
+    });
+
